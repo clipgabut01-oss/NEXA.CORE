@@ -1,106 +1,171 @@
-document.addEventListener("DOMContentLoaded",()=>{
-  const body=document.body;
-  const intro=document.getElementById("intro");
-  const holdButton=document.getElementById("holdButton");
-  const holdRing=document.getElementById("holdRing");
-  const holdStatus=document.getElementById("holdStatus");
-  const skipIntro=document.getElementById("skipIntro");
-  const scrollProgress=document.getElementById("scrollProgress");
-  const nav=document.getElementById("nav");
-  const heroVisual=document.getElementById("heroVisual");
-  const productTilt=document.getElementById("productTilt");
-  const showcaseArea=document.getElementById("showcaseArea");
-  const showcaseTilt=document.getElementById("showcaseTilt");
+(() => {
+  const $ = (s, root = document) => root.querySelector(s);
+  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
 
-  let holding=false,progress=0,timer=null;
-  const hasGSAP=typeof gsap!=="undefined"&&typeof ScrollTrigger!=="undefined";
+  document.addEventListener('DOMContentLoaded', () => {
+    const body = document.body;
+    const intro = $('#intro');
+    const hold = $('#introHold');
+    const ring = $('#introRing');
+    const skip = $('#introSkip');
+    const nav = $('#nav');
+    const progressBar = $('#siteProgress');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = window.matchMedia('(pointer:fine)').matches;
 
-  const runIntroAnimation=()=>{
-    if(!hasGSAP)return;
-    gsap.from(".hero .reveal",{y:24,opacity:0,duration:.75,stagger:.08,ease:"power2.out"});
-    gsap.from("#productTilt",{y:20,opacity:0,duration:1,ease:"power2.out"});
-  };
+    let timer = null;
+    let value = 0;
+    const circumference = 333;
 
-  const revealSite=()=>{
-    clearInterval(timer);holding=false;
-    holdRing.style.setProperty("--progress","360deg");
-    holdStatus.textContent="WELCOME";
-    setTimeout(()=>{
-      intro.classList.add("is-hidden");
-      body.classList.remove("is-locked");
-      sessionStorage.setItem("nexa-intro-seen","1");
-      runIntroAnimation();
-    },170);
-  };
+    const setRing = (p) => {
+      if (!ring) return;
+      ring.style.strokeDashoffset = String(circumference - (circumference * p / 100));
+    };
 
-  const resetHold=()=>{
-    if(!holding)return;
-    clearInterval(timer);holding=false;progress=0;
-    holdRing.style.setProperty("--progress","0deg");
-    holdStatus.textContent="HOLD TO ENTER";
-  };
+    const enter = () => {
+      clearInterval(timer);
+      setRing(100);
+      intro?.classList.add('is-hidden');
+      body.classList.remove('intro-lock');
+      try { sessionStorage.setItem('nexaIntroSeen', '1'); } catch (_) {}
+      setTimeout(() => intro?.setAttribute('aria-hidden', 'true'), 600);
+    };
 
-  const startHold=e=>{
-    if(e)e.preventDefault();
-    if(holding)return;
-    holding=true;progress=0;holdStatus.textContent="OPENING";
-    timer=setInterval(()=>{
-      progress+=2.4;
-      holdRing.style.setProperty("--progress",`${Math.min(progress/100*360,360)}deg`);
-      if(progress>=100)revealSite();
-    },24);
-  };
+    const resetHold = () => {
+      clearInterval(timer);
+      timer = null;
+      value = 0;
+      setRing(0);
+    };
 
-  holdButton?.addEventListener("mousedown",startHold);
-  holdButton?.addEventListener("mouseup",resetHold);
-  holdButton?.addEventListener("mouseleave",resetHold);
-  holdButton?.addEventListener("touchstart",startHold,{passive:false});
-  holdButton?.addEventListener("touchend",resetHold);
-  holdButton?.addEventListener("touchcancel",resetHold);
-  skipIntro?.addEventListener("click",revealSite);
+    const startHold = (e) => {
+      e?.preventDefault();
+      if (timer) return;
+      value = 0;
+      timer = setInterval(() => {
+        value += 3;
+        setRing(Math.min(value, 100));
+        if (value >= 100) enter();
+      }, 24);
+    };
 
-  if(sessionStorage.getItem("nexa-intro-seen")==="1"){
-    intro?.classList.add("is-hidden");
-    body.classList.remove("is-locked");
-  }
+    if (reduceMotion) {
+      enter();
+    } else {
+      let seen = false;
+      try { seen = sessionStorage.getItem('nexaIntroSeen') === '1'; } catch (_) {}
+      if (seen) enter();
+    }
 
-  if(hasGSAP){
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.utils.toArray(".section .reveal").forEach(el=>{
-      gsap.from(el,{y:22,opacity:0,duration:.72,ease:"power2.out",scrollTrigger:{trigger:el,start:"top 90%",once:true}});
+    hold?.addEventListener('mousedown', startHold);
+    hold?.addEventListener('mouseup', resetHold);
+    hold?.addEventListener('mouseleave', resetHold);
+    hold?.addEventListener('touchstart', startHold, { passive:false });
+    hold?.addEventListener('touchend', resetHold);
+    hold?.addEventListener('touchcancel', resetHold);
+    skip?.addEventListener('click', enter);
+
+    const reveals = $$('[data-reveal]');
+    if ('IntersectionObserver' in window && !reduceMotion) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            io.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
+      reveals.forEach((el) => io.observe(el));
+    } else {
+      reveals.forEach((el) => el.classList.add('is-visible'));
+    }
+
+    const updateScrollUI = () => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      const pct = max > 0 ? (scrollY / max) * 100 : 0;
+      if (progressBar) progressBar.style.width = `${pct}%`;
+      nav?.classList.toggle('is-scrolled', scrollY > 18);
+    };
+    addEventListener('scroll', updateScrollUI, { passive:true });
+    updateScrollUI();
+
+    const attachTilt = (area, target, maxX = 7, maxY = 9) => {
+      if (!area || !target || !finePointer || reduceMotion) return;
+      area.addEventListener('mousemove', (e) => {
+        const r = area.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - 0.5;
+        const py = (e.clientY - r.top) / r.height - 0.5;
+        const rx = -py * maxX;
+        const ry = px * maxY;
+        if (window.gsap) {
+          gsap.to(target, { rotateX:rx, rotateY:ry, x:px*8, y:py*7, duration:.45, ease:'power2.out', transformPerspective:1200 });
+        } else {
+          target.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translate3d(${px*8}px,${py*7}px,0)`;
+        }
+      });
+      area.addEventListener('mouseleave', () => {
+        if (window.gsap) gsap.to(target, { rotateX:0, rotateY:0, x:0, y:0, duration:.65, ease:'power2.out' });
+        else target.style.transform = 'none';
+      });
+    };
+
+    attachTilt($('#heroVisual'), $('#heroProduct3d'), 7, 9);
+    attachTilt($('#showcaseVisual'), $('#showcaseProduct3d'), 5, 7);
+
+    $$('.faq-item').forEach((item) => {
+      const btn = $('.faq-item__button', item);
+      btn?.addEventListener('click', () => {
+        const nextState = !item.classList.contains('is-open');
+        $$('.faq-item.is-open').forEach((other) => {
+          if (other !== item) {
+            other.classList.remove('is-open');
+            $('.faq-item__button', other)?.setAttribute('aria-expanded', 'false');
+          }
+        });
+        item.classList.toggle('is-open', nextState);
+        btn.setAttribute('aria-expanded', String(nextState));
+      });
     });
-    gsap.to("#showcaseTilt",{y:-18,scrollTrigger:{trigger:".product-section",start:"top bottom",end:"bottom top",scrub:1}});
-  }
 
-  const enableTilt=(container,target,intensity=8)=>{
-    if(!container||!target||!window.matchMedia("(pointer:fine)").matches)return;
-    container.addEventListener("mousemove",event=>{
-      const rect=container.getBoundingClientRect();
-      const px=(event.clientX-rect.left)/rect.width-.5;
-      const py=(event.clientY-rect.top)/rect.height-.5;
-      const rotateY=px*intensity;
-      const rotateX=-py*(intensity-2);
-      const x=px*8,y=py*8;
-      if(hasGSAP){gsap.to(target,{rotateY,rotateX,x,y,duration:.45,ease:"power2.out"});}
-      else{target.style.transform=`rotateY(${rotateY}deg) rotateX(${rotateX}deg) translate(${x}px,${y}px)`;}
-    });
-    container.addEventListener("mouseleave",()=>{
-      if(hasGSAP){gsap.to(target,{rotateY:0,rotateX:0,x:0,y:0,duration:.55,ease:"power2.out"});}
-      else{target.style.transform="rotateY(0deg) rotateX(0deg) translate(0,0)";}
-    });
-  };
+    if (window.gsap && window.ScrollTrigger && !reduceMotion) {
+      gsap.registerPlugin(ScrollTrigger);
 
-  enableTilt(heroVisual,productTilt,8);
-  enableTilt(showcaseArea,showcaseTilt,7);
+      gsap.to('#heroProduct3d', {
+        y: 42,
+        rotateZ: 2,
+        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1 }
+      });
 
-  const updateScrollUI=()=>{
-    const scrollable=document.documentElement.scrollHeight-window.innerHeight;
-    const percent=scrollable>0?window.scrollY/scrollable*100:0;
-    scrollProgress.style.width=`${percent}%`;
-    nav.classList.toggle("is-scrolled",window.scrollY>12);
-  };
-  window.addEventListener("scroll",updateScrollUI,{passive:true});
-  updateScrollUI();
+      gsap.to('.stage__ring--a', {
+        rotate: 12,
+        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1.2 }
+      });
+      gsap.to('.stage__ring--b', {
+        rotate: -4,
+        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1.2 }
+      });
 
-  if(sessionStorage.getItem("nexa-intro-seen")==="1")runIntroAnimation();
-});
+      gsap.to('#showcaseProduct3d', {
+        y: -28,
+        rotateZ: 1.2,
+        scrollTrigger: { trigger:'.product-section', start:'top bottom', end:'bottom top', scrub:1 }
+      });
+
+      gsap.to('.mini-device img', {
+        y: -22,
+        rotate: -4,
+        scrollTrigger: { trigger:'.how', start:'top bottom', end:'bottom top', scrub:1 }
+      });
+
+      $$('.gallery-card').forEach((card, idx) => {
+        gsap.from(card, {
+          y: 35 + idx * 6,
+          opacity:0,
+          duration:.8,
+          ease:'power2.out',
+          scrollTrigger:{ trigger:card, start:'top 88%', once:true }
+        });
+      });
+    }
+  });
+})();

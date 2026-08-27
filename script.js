@@ -2,7 +2,73 @@
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  const PRODUCT_PARTS = [
+    'assets/product-data/part-01.txt',
+    'assets/product-data/part-02.txt',
+    'assets/product-data/part-03.txt',
+    'assets/product-data/part-04.txt',
+    'assets/product-data/part-05.txt',
+    'assets/product-data/part-06.txt',
+    'assets/product-data/part-07.txt'
+  ];
+
+  const productImages = () => $$('img[src*="nexa-review-master-hd.png"], img[data-nexa-product]');
+
+  const setProductLoadingState = () => {
+    productImages().forEach(img => {
+      img.style.opacity = '0';
+      img.style.transition = 'opacity .35s ease';
+    });
+  };
+
+  const loadOriginalProductMaster = async () => {
+    const images = productImages();
+    if (!images.length) return;
+
+    try {
+      const parts = await Promise.all(PRODUCT_PARTS.map(async url => {
+        const response = await fetch(url, { cache: 'force-cache' });
+        if (!response.ok) throw new Error(`Gagal memuat ${url}: ${response.status}`);
+        return (await response.text()).trim();
+      }));
+
+      const base64 = parts.join('').replace(/\s+/g, '');
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+
+      const blob = new Blob([bytes], { type: 'image/png' });
+      const objectUrl = URL.createObjectURL(blob);
+
+      await Promise.all(images.map(img => new Promise(resolve => {
+        const done = () => {
+          img.style.opacity = '1';
+          img.classList.add('nexa-product-loaded');
+          resolve();
+        };
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', () => {
+          console.error('NEXA product master gagal dirender pada elemen gambar.');
+          resolve();
+        }, { once: true });
+        img.src = objectUrl;
+        if (img.complete && img.naturalWidth > 0) done();
+      })));
+
+      document.documentElement.classList.add('product-master-ready');
+    } catch (error) {
+      console.error('NEXA product master loader error:', error);
+      images.forEach(img => {
+        img.style.opacity = '0';
+        img.setAttribute('aria-hidden', 'true');
+      });
+    }
+  };
+
   document.addEventListener('DOMContentLoaded', () => {
+    setProductLoadingState();
+    loadOriginalProductMaster();
+
     const body = document.body;
     const intro = $('#intro');
     const hold = $('#introHold');

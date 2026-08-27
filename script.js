@@ -1,171 +1,100 @@
 (() => {
-  const $ = (s, root = document) => root.querySelector(s);
-  const $$ = (s, root = document) => [...root.querySelectorAll(s)];
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   document.addEventListener('DOMContentLoaded', () => {
     const body = document.body;
     const intro = $('#intro');
-    const hold = $('#introHold');
-    const ring = $('#introRing');
-    const skip = $('#introSkip');
+    const introHold = $('#introHold');
+    const introProgress = $('#introProgress');
+    const introSkip = $('#introSkip');
     const nav = $('#nav');
-    const progressBar = $('#siteProgress');
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const finePointer = window.matchMedia('(pointer:fine)').matches;
+    const scrollbar = $('#scrollbar');
+    const heroArea = $('#heroProductArea');
+    const heroCard = $('#heroCard');
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = matchMedia('(pointer:fine)').matches;
 
     let timer = null;
     let value = 0;
-    const circumference = 333;
-
-    const setRing = (p) => {
-      if (!ring) return;
-      ring.style.strokeDashoffset = String(circumference - (circumference * p / 100));
-    };
-
+    const circumference = 327;
+    const setProgress = p => { if (introProgress) introProgress.style.strokeDashoffset = String(circumference - circumference * p / 100); };
     const enter = () => {
       clearInterval(timer);
-      setRing(100);
+      timer = null;
+      setProgress(100);
       intro?.classList.add('is-hidden');
       body.classList.remove('intro-lock');
-      try { sessionStorage.setItem('nexaIntroSeen', '1'); } catch (_) {}
-      setTimeout(() => intro?.setAttribute('aria-hidden', 'true'), 600);
+      try { sessionStorage.setItem('nexa-intro', '1'); } catch (_) {}
+      setTimeout(() => intro?.setAttribute('aria-hidden','true'), 700);
     };
-
-    const resetHold = () => {
-      clearInterval(timer);
-      timer = null;
-      value = 0;
-      setRing(0);
-    };
-
-    const startHold = (e) => {
+    const resetHold = () => { clearInterval(timer); timer = null; value = 0; setProgress(0); };
+    const startHold = e => {
       e?.preventDefault();
       if (timer) return;
       value = 0;
-      timer = setInterval(() => {
-        value += 3;
-        setRing(Math.min(value, 100));
-        if (value >= 100) enter();
-      }, 24);
+      timer = setInterval(() => { value += 3; setProgress(value); if (value >= 100) enter(); }, 28);
     };
+    introHold?.addEventListener('pointerdown', startHold);
+    ['pointerup','pointerleave','pointercancel'].forEach(ev => introHold?.addEventListener(ev, resetHold));
+    introSkip?.addEventListener('click', enter);
+    try { if (sessionStorage.getItem('nexa-intro') === '1') enter(); } catch (_) {}
 
-    if (reduceMotion) {
-      enter();
-    } else {
-      let seen = false;
-      try { seen = sessionStorage.getItem('nexaIntroSeen') === '1'; } catch (_) {}
-      if (seen) enter();
-    }
-
-    hold?.addEventListener('mousedown', startHold);
-    hold?.addEventListener('mouseup', resetHold);
-    hold?.addEventListener('mouseleave', resetHold);
-    hold?.addEventListener('touchstart', startHold, { passive:false });
-    hold?.addEventListener('touchend', resetHold);
-    hold?.addEventListener('touchcancel', resetHold);
-    skip?.addEventListener('click', enter);
-
-    const reveals = $$('[data-reveal]');
-    if ('IntersectionObserver' in window && !reduceMotion) {
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            io.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.12, rootMargin: '0px 0px -5% 0px' });
-      reveals.forEach((el) => io.observe(el));
-    } else {
-      reveals.forEach((el) => el.classList.add('is-visible'));
-    }
-
-    const updateScrollUI = () => {
+    const updateScroll = () => {
       const max = document.documentElement.scrollHeight - innerHeight;
-      const pct = max > 0 ? (scrollY / max) * 100 : 0;
-      if (progressBar) progressBar.style.width = `${pct}%`;
-      nav?.classList.toggle('is-scrolled', scrollY > 18);
+      const pct = max > 0 ? scrollY / max * 100 : 0;
+      if (scrollbar) scrollbar.style.width = `${pct}%`;
+      nav?.classList.toggle('is-scrolled', scrollY > 15);
     };
-    addEventListener('scroll', updateScrollUI, { passive:true });
-    updateScrollUI();
+    addEventListener('scroll', updateScroll, {passive:true});
+    updateScroll();
 
-    const attachTilt = (area, target, maxX = 7, maxY = 9) => {
-      if (!area || !target || !finePointer || reduceMotion) return;
-      area.addEventListener('mousemove', (e) => {
-        const r = area.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width - 0.5;
-        const py = (e.clientY - r.top) / r.height - 0.5;
-        const rx = -py * maxX;
-        const ry = px * maxY;
-        if (window.gsap) {
-          gsap.to(target, { rotateX:rx, rotateY:ry, x:px*8, y:py*7, duration:.45, ease:'power2.out', transformPerspective:1200 });
-        } else {
-          target.style.transform = `perspective(1200px) rotateX(${rx}deg) rotateY(${ry}deg) translate3d(${px*8}px,${py*7}px,0)`;
-        }
+    if (finePointer && heroArea && heroCard && !reduceMotion) {
+      heroArea.addEventListener('mousemove', e => {
+        const r = heroArea.getBoundingClientRect();
+        const px = (e.clientX - r.left) / r.width - .5;
+        const py = (e.clientY - r.top) / r.height - .5;
+        heroCard.style.animation = 'none';
+        heroCard.style.transform = `rotateX(${4 - py * 12}deg) rotateY(${-12 + px * 18}deg) rotateZ(${8 + px * 3}deg) translate3d(${px*10}px,${py*8}px,0)`;
       });
-      area.addEventListener('mouseleave', () => {
-        if (window.gsap) gsap.to(target, { rotateX:0, rotateY:0, x:0, y:0, duration:.65, ease:'power2.out' });
-        else target.style.transform = 'none';
+      heroArea.addEventListener('mouseleave', () => {
+        heroCard.style.transform = '';
+        heroCard.style.animation = '';
       });
-    };
-
-    attachTilt($('#heroVisual'), $('#heroProduct3d'), 7, 9);
-    attachTilt($('#showcaseVisual'), $('#showcaseProduct3d'), 5, 7);
-
-    $$('.faq-item').forEach((item) => {
-      const btn = $('.faq-item__button', item);
-      btn?.addEventListener('click', () => {
-        const nextState = !item.classList.contains('is-open');
-        $$('.faq-item.is-open').forEach((other) => {
-          if (other !== item) {
-            other.classList.remove('is-open');
-            $('.faq-item__button', other)?.setAttribute('aria-expanded', 'false');
-          }
-        });
-        item.classList.toggle('is-open', nextState);
-        btn.setAttribute('aria-expanded', String(nextState));
-      });
-    });
+    }
 
     if (window.gsap && window.ScrollTrigger && !reduceMotion) {
       gsap.registerPlugin(ScrollTrigger);
+      $$('.reveal').forEach(el => gsap.from(el, {opacity:0,y:28,duration:.85,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 91%',once:true}}));
+      gsap.to('.hero__beam--one',{x:-100,y:70,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+      gsap.to('.hero__beam--two',{x:80,y:-50,scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+      gsap.to('#explodeCard',{y:-28,x:15,scrollTrigger:{trigger:'.about',start:'top bottom',end:'bottom top',scrub:1}});
+      gsap.to('#specProduct',{rotateY:7,rotateZ:4,y:-14,scrollTrigger:{trigger:'.specs',start:'top bottom',end:'bottom top',scrub:1}});
+    }
 
-      gsap.to('#heroProduct3d', {
-        y: 42,
-        rotateZ: 2,
-        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1 }
-      });
-
-      gsap.to('.stage__ring--a', {
-        rotate: 12,
-        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1.2 }
-      });
-      gsap.to('.stage__ring--b', {
-        rotate: -4,
-        scrollTrigger: { trigger:'.hero', start:'top top', end:'bottom top', scrub:1.2 }
-      });
-
-      gsap.to('#showcaseProduct3d', {
-        y: -28,
-        rotateZ: 1.2,
-        scrollTrigger: { trigger:'.product-section', start:'top bottom', end:'bottom top', scrub:1 }
-      });
-
-      gsap.to('.mini-device img', {
-        y: -22,
-        rotate: -4,
-        scrollTrigger: { trigger:'.how', start:'top bottom', end:'bottom top', scrub:1 }
-      });
-
-      $$('.gallery-card').forEach((card, idx) => {
-        gsap.from(card, {
-          y: 35 + idx * 6,
-          opacity:0,
-          duration:.8,
-          ease:'power2.out',
-          scrollTrigger:{ trigger:card, start:'top 88%', once:true }
-        });
-      });
+    const canvas = $('#starfield');
+    const ctx = canvas?.getContext('2d');
+    if (canvas && ctx && !reduceMotion) {
+      let stars = [];
+      const resize = () => {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        canvas.width = innerWidth * dpr;
+        canvas.height = innerHeight * dpr;
+        canvas.style.width = innerWidth+'px';
+        canvas.style.height = innerHeight+'px';
+        ctx.setTransform(dpr,0,0,dpr,0,0);
+        stars = Array.from({length:Math.min(80,Math.max(35,innerWidth/20|0))},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.15+.15,a:Math.random()*.45+.08,s:Math.random()*.12+.02}));
+      };
+      const draw = () => {
+        ctx.clearRect(0,0,innerWidth,innerHeight);
+        for (const s of stars) {
+          s.y -= s.s;
+          if (s.y < -3){s.y=innerHeight+3;s.x=Math.random()*innerWidth}
+          ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fillStyle=`rgba(90,160,255,${s.a})`;ctx.fill();
+        }
+        requestAnimationFrame(draw);
+      };
+      resize();draw();addEventListener('resize',resize);
     }
   });
 })();

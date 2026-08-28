@@ -1,121 +1,144 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#050b16" />
-  <title>NEXA Review — Smart Review Solution</title>
-  <meta name="description" content="NEXA Review membantu bisnis mendapatkan lebih banyak ulasan Google dengan cara yang lebih mudah, modern, dan profesional." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="script.js"></script>
+  <meta name="theme-color" content="#050b14" />
+  <meta name="description" content="NEXA Review — display NFC + QR untuk memudahkan pelanggan menuju Google Review." />
+  <title>NEXA Review — 3D Smart Review Solution</title>
 </head>
-<body>
-  <div class="bg-orb orb-1"></div>
-  <div class="bg-orb orb-2"></div>
-  <div class="bg-grid"></div>
+<body class="intro-lock">
+  <div id="app">
+    <canvas id="webgl" aria-hidden="true"></canvas>
+    <div class="grain" aria-hidden="true"></div>
+    <div class="scroll-progress"><span id="scrollProgress"></span></div>
 
-  <header class="site-header" id="top">
-    <div class="container nav-wrap">
-      <a class="brand" href="#top">NEXA</a>
-      <nav class="nav">
-        <a href="#top">Beranda</a>
-        <a href="#produk">Produk</a>
-        <a href="#cara-kerja">Cara Kerja</a>
-        <a href="#manfaat">Manfaat</a>
-        <a href="#galeri">Galeri</a>
+    <div class="intro" id="intro">
+      <div class="intro__brand">NEXA</div>
+      <p>SMART REVIEW SOLUTION</p>
+      <button id="introHold" class="intro__hold" type="button">
+        <span class="intro__hold-ring" id="introRing"></span>
+        <strong>HOLD</strong>
+        <small>TO ENTER</small>
+      </button>
+      <button class="intro__skip" id="introSkip" type="button">Lewati intro</button>
+    </div>
+
+    <header class="nav" id="nav">
+      <a class="brand" href="#top"><strong>NEXA</strong><span>SMART REVIEW</span></a>
+      <nav>
+        <a href="#product">Produk</a>
+        <a href="#how">Cara Kerja</a>
+        <a href="#benefits">Manfaat</a>
         <a href="#faq">FAQ</a>
       </nav>
-      <a class="nav-cta" href="#produk">Lihat Produk</a>
-    </div>
-  </header>
+      <a href="#product" class="nav__cta">Lihat Produk</a>
+    </header>
 
-  <main>
-    <section class="hero section">
-      <div class="container hero-grid">
-        <div class="hero-copy reveal">
-          <span class="eyebrow">SMART REVIEW SOLUTION</span>
-          <h1>Ulasan Asli.<br><span>Dampak Nyata.</span></h1>
-          <p>NEXA membantu bisnis Anda mendapatkan lebih banyak ulasan Google dengan cara yang lebih mudah, modern, dan profesional.</p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="#produk">Lihat Produk</a>
-            <a class="btn btn-secondary" href="#cara-kerja">Cara Kerja</a>
+    <main>
+      <section class="hero scene" id="top" data-scene="hero">
+        <div class="hero__copy">
+          <span class="eyebrow reveal">NEXA REVIEW · NFC + QR</span>
+          <h1 class="reveal">Ulasan lebih mudah. Pengalaman lebih profesional.</h1>
+          <p class="lead reveal">NEXA Review membantu pelanggan menuju halaman Google Review hanya dengan satu tap NFC atau satu scan QR — tanpa aplikasi tambahan.</p>
+          <div class="hero__actions reveal">
+            <a class="btn btn--primary" href="#product">Lihat Produk</a>
+            <a class="btn btn--ghost" href="#how">Cara Kerja</a>
           </div>
-          <div class="trust-row">
-            <div class="avatars"><span></span><span></span><span></span><span></span></div>
-            <div><small>Designed for</small><strong>modern business</strong></div>
-          </div>
-        </div>
-
-        <div class="hero-stage reveal" id="heroStage">
-          <div class="pedestal-glow"></div><div class="pedestal-ring ring-a"></div><div class="pedestal-ring ring-b"></div><div class="pedestal-base"></div>
-          <div class="product-wrap tilt-target" id="heroProductWrap">
-            <div class="acrylic-side"></div>
-            <img class="product-img" src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Produk NEXA Review" />
-            <div class="edge-highlight"></div><div class="shine"></div>
+          <div class="hero__facts reveal">
+            <div><strong>NFC</strong><span>Tap langsung</span></div>
+            <div><strong>QR</strong><span>Backup universal</span></div>
+            <div><strong>0 App</strong><span>Tidak perlu instalasi</span></div>
           </div>
         </div>
-      </div>
+        <div class="hero__spacer" aria-hidden="true"></div>
+        <div class="scroll-cue"><span>Scroll untuk menjelajah</span><i></i></div>
+      </section>
 
-      <div class="container quick-features reveal">
-        <article><h3>NFC + QR</h3><p>Tap atau scan, langsung buka link review.</p></article>
-        <article><h3>Tanpa Aplikasi</h3><p>Langsung bekerja di smartphone pelanggan.</p></article>
-        <article><h3>Desain Premium</h3><p>Akrilik bening dengan tampilan profesional.</p></article>
-        <article><h3>Aman</h3><p>Link bisa disiapkan lebih rapi untuk penggunaan bisnis.</p></article>
-      </div>
-    </section>
+      <section class="section scene product" id="product" data-scene="product">
+        <div class="section__grid">
+          <div class="section__visual-space" aria-hidden="true"></div>
+          <div class="section__copy">
+            <span class="eyebrow reveal">01 · PRODUK</span>
+            <h2 class="reveal">NEXA Review, dibuat untuk terlihat premium di titik pelayanan.</h2>
+            <p class="body-copy reveal">Kartu review berbahan akrilik dengan desain visual yang jelas, NFC di dalam produk, serta QR sebagai alternatif. Cocok ditempatkan di kasir, meja, resepsionis, atau area customer service.</p>
+            <div class="spec-list">
+              <article class="spec reveal"><span>01</span><div><strong>NFC + QR</strong><p>Dua metode akses dalam satu media.</p></div></article>
+              <article class="spec reveal"><span>02</span><div><strong>Akrilik premium</strong><p>Tampilan rapi dan cocok untuk display.</p></div></article>
+              <article class="spec reveal"><span>03</span><div><strong>Tanpa aplikasi</strong><p>Pengguna cukup memakai browser smartphone.</p></div></article>
+              <article class="spec reveal"><span>04</span><div><strong>Smart routing</strong><p>Tujuan digital dapat dikelola melalui sistem NEXA.</p></div></article>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <section class="section" id="produk"><div class="container split-grid">
-      <div class="product-flat reveal"><div class="floating-panel"><div class="panel-shadow"></div><div class="panel-base"></div><div class="panel-product tilt-target" id="productInfoWrap"><div class="acrylic-layer lower"></div><img class="product-img product-img-small" src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Produk NEXA Review detail" /><div class="gold-rings"></div></div></div></div>
-      <div class="info-list reveal">
-        <span class="eyebrow">APA ITU NEXA REVIEW CARD?</span>
-        <h2>Kartu display pintar yang menggabungkan NFC dan QR untuk memperpendek langkah pelanggan menuju halaman Google Review.</h2>
-        <div class="info-item"><span>01</span><div><h3>Akrilik Premium</h3><p>Format 10 × 10 cm dengan ketebalan visual 2 cm untuk tampilan kokoh dan premium.</p></div></div>
-        <div class="info-item"><span>02</span><div><h3>Chip NFC</h3><p>Teknologi NFC untuk membuka tujuan digital melalui satu tap pada smartphone kompatibel.</p></div></div>
-        <div class="info-item"><span>03</span><div><h3>QR Code</h3><p>Alternatif universal yang mudah dipindai ketika NFC tidak digunakan.</p></div></div>
-        <div class="info-item"><span>04</span><div><h3>Belakang Polos</h3><p>Tampilan belakang clean agar produk tetap terlihat rapi dari berbagai sudut.</p></div></div>
-      </div>
-    </div></section>
+      <section class="section scene how" id="how" data-scene="how">
+        <div class="section-head reveal">
+          <span class="eyebrow">02 · CARA KERJA</span>
+          <h2>Tiga langkah. Tidak perlu penjelasan panjang ke pelanggan.</h2>
+        </div>
+        <div class="steps">
+          <article class="step reveal"><span>01</span><h3>Tap atau scan</h3><p>Tempelkan smartphone ke area NFC atau scan QR yang tersedia.</p></article>
+          <article class="step reveal"><span>02</span><h3>Buka halaman</h3><p>Browser langsung membuka tujuan Google Review yang telah diatur.</p></article>
+          <article class="step reveal"><span>03</span><h3>Beri ulasan</h3><p>Pelanggan melanjutkan proses penilaian dan menulis review.</p></article>
+        </div>
+      </section>
 
-    <section class="section" id="cara-kerja"><div class="container centered-head reveal"><span class="eyebrow">CARA KERJA</span><h2>Sederhana, cepat, dan efektif.</h2></div><div class="container cards-3">
-      <article class="glass-card reveal"><div class="mini-preview p1"></div><h3>1. Tap atau Scan</h3><p>Tempelkan smartphone ke NFC atau scan QR Code pada produk NEXA.</p></article>
-      <article class="glass-card reveal"><div class="mini-preview p2"></div><h3>2. Buka Link</h3><p>Pengguna langsung diarahkan ke halaman review Google.</p></article>
-      <article class="glass-card reveal"><div class="mini-preview p3"></div><h3>3. Beri Ulasan</h3><p>Pelanggan menulis ulasan dengan proses yang lebih mudah.</p></article>
-    </div></section>
+      <section class="section scene experience" data-scene="experience">
+        <div class="experience__copy">
+          <span class="eyebrow reveal">03 · 3D PRODUCT EXPERIENCE</span>
+          <h2 class="reveal">Lihat produknya dari sudut yang berbeda.</h2>
+          <p class="body-copy reveal">Gerakkan pointer di desktop atau scroll halaman untuk melihat kedalaman, refleksi, dan material kartu secara real-time.</p>
+        </div>
+      </section>
 
-    <section class="section" id="manfaat"><div class="container centered-head reveal"><span class="eyebrow">KENAPA HARUS NEXA?</span><h2>Dirancang untuk memberi pengalaman yang lebih modern pada pelanggan.</h2></div><div class="container benefit-grid">
-      <article class="benefit reveal"><h3>Meningkatkan Reputasi</h3><p>Lebih banyak ulasan = lebih mudah dipercaya.</p></article>
-      <article class="benefit reveal"><h3>Mudah Digunakan</h3><p>Cukup tap atau scan tanpa proses rumit.</p></article>
-      <article class="benefit reveal"><h3>Desain Modern</h3><p>Cocok untuk semua jenis bisnis dengan tampilan premium.</p></article>
-      <article class="benefit reveal"><h3>Hemat Waktu</h3><p>Tanpa perlu pelanggan mengetik nama bisnis secara manual.</p></article>
-    </div></section>
+      <section class="section benefits scene" id="benefits" data-scene="benefits">
+        <div class="section-head reveal">
+          <span class="eyebrow">04 · MANFAAT</span>
+          <h2>Mengurangi hambatan antara pengalaman pelanggan dan ulasan bisnis Anda.</h2>
+        </div>
+        <div class="benefit-grid">
+          <article class="benefit reveal"><strong>Lebih praktis</strong><p>Pelanggan tidak perlu mencari nama bisnis secara manual.</p></article>
+          <article class="benefit reveal"><strong>Lebih profesional</strong><p>Permintaan review terasa lebih rapi dan modern.</p></article>
+          <article class="benefit reveal"><strong>Lebih fleksibel</strong><p>NFC sebagai metode utama, QR sebagai backup universal.</p></article>
+          <article class="benefit reveal"><strong>Mudah ditempatkan</strong><p>Cocok untuk cafe, toko, klinik, hotel, salon, dan layanan lainnya.</p></article>
+        </div>
+      </section>
 
-    <section class="section" id="galeri"><div class="container centered-head reveal"><span class="eyebrow">GALERI PRODUK</span><h2>Lihat lebih dekat kualitas premium NEXA.</h2></div><div class="container gallery-grid">
-      <div class="gallery-main reveal"><img src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Galeri utama NEXA" /></div>
-      <div class="gallery-stack">
-        <div class="gallery-card reveal blue-card"><div class="gallery-float"><img src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Galeri NEXA 1" /></div></div>
-        <div class="gallery-card reveal side-card"><div class="gallery-side"><img src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Galeri NEXA 2" /></div></div>
-        <div class="gallery-card reveal pedestal-card"><div class="gallery-pedestal"><img src="assets/ChatGPT%20Image%20Aug%2027%2C%202026%2C%2009_46_18%20AM.png" alt="Galeri NEXA 3" /></div></div>
-      </div>
-    </div></section>
+      <section class="section scene businesses" data-scene="businesses">
+        <div class="section-head reveal">
+          <span class="eyebrow">05 · COCOK UNTUK</span>
+          <h2>Satu produk, banyak titik pelayanan.</h2>
+        </div>
+        <div class="business-row reveal">
+          <span>Cafe & Restaurant</span><span>Retail</span><span>Hotel</span><span>Salon</span><span>Klinik</span><span>Showroom</span>
+        </div>
+      </section>
 
-    <section class="section specs-faq-wrap"><div class="container specs-faq-grid">
-      <div class="specs-panel reveal"><span class="eyebrow">SPESIFIKASI</span><h2>Spesifikasi Produk</h2><div class="spec-table">
-        <div><span>Ukuran</span><strong>10 × 10 cm</strong></div><div><span>Ketebalan</span><strong>2 cm</strong></div><div><span>Material</span><strong>Akrilik Premium</strong></div><div><span>Chip NFC</span><strong>NTAG215/216</strong></div><div><span>QR Code</span><strong>High Resolution</strong></div><div><span>Warna</span><strong>Biru / Putih</strong></div>
-      </div></div>
-      <div class="faq-panel reveal" id="faq"><span class="eyebrow">FAQ</span><h2>Pertanyaan yang sering ditanyakan.</h2>
-        <details open><summary>Apakah perlu aplikasi untuk NFC?</summary><p>Tidak. Pada smartphone yang mendukung NFC, pelanggan cukup tap untuk membuka tujuan digital.</p></details>
-        <details><summary>Apakah semua HP bisa scan QR?</summary><p>Ya. QR Code menjadi alternatif universal yang bisa digunakan hampir di semua smartphone modern.</p></details>
-        <details><summary>Apakah desain produk bisa berubah nanti?</summary><p>Bisa. Desain dan detail spesifikasi masih bisa disesuaikan sesuai pengembangan produk NEXA.</p></details>
-        <details><summary>Cocok untuk bisnis apa?</summary><p>Cocok untuk cafe, restoran, hotel, salon, barbershop, retail, dealer, showroom, dan bisnis layanan lain.</p></details>
-      </div>
-    </div></section>
+      <section class="section faq scene" id="faq" data-scene="faq">
+        <div class="faq__grid">
+          <div class="section-head reveal"><span class="eyebrow">06 · FAQ</span><h2>Pertanyaan yang paling sering muncul.</h2></div>
+          <div class="accordion">
+            <details class="reveal"><summary>Apakah perlu aplikasi untuk menggunakan NFC?</summary><p>Tidak. Smartphone yang mendukung NFC cukup menempelkan perangkat ke produk dan tautan akan dibuka melalui browser.</p></details>
+            <details class="reveal"><summary>Bagaimana jika HP tidak memiliki NFC?</summary><p>Pengguna dapat memakai QR yang tersedia di produk sebagai alternatif.</p></details>
+            <details class="reveal"><summary>Apakah link tujuan bisa diubah?</summary><p>Sistem NEXA dirancang agar tujuan digital dapat dikelola tanpa harus mengganti media fisik.</p></details>
+            <details class="reveal"><summary>Apakah produk hanya untuk Google Review?</summary><p>Saat ini produk pertama NEXA fokus pada Google Review. Ekosistem NEXA dapat berkembang ke use-case digital lain ke depannya.</p></details>
+          </div>
+        </div>
+      </section>
 
-    <section class="section cta-section"><div class="container cta-box reveal"><div><span class="eyebrow">NEXA</span><h2>Siap naik level bersama NEXA?</h2><p>Mulai bangun kesan bisnis modern dengan proses review yang lebih praktis.</p></div><div class="cta-actions"><a class="btn btn-primary" href="#produk">Lihat Produk</a><button class="btn btn-disabled" type="button" disabled>Kontak Segera Hadir</button></div></div></section>
-  </main>
+      <section class="section final scene" data-scene="final">
+        <div class="final__card reveal">
+          <span class="eyebrow">NEXA REVIEW</span>
+          <h2>Satu tap lebih dekat ke ulasan berikutnya.</h2>
+          <p>Kontak bisnis NEXA akan ditambahkan setelah nomor resmi siap digunakan.</p>
+          <button class="btn btn--disabled" disabled>Kontak Segera Hadir</button>
+        </div>
+      </section>
+    </main>
 
-  <footer class="site-footer"><div class="container footer-wrap"><div><div class="brand footer-brand">NEXA</div><p>SMART REVIEW SOLUTION</p></div><div class="footer-links"><a href="#top">Beranda</a><a href="#produk">Produk</a><a href="#cara-kerja">Cara Kerja</a><a href="#faq">FAQ</a></div><small>© 2026 NEXA. All rights reserved.</small></div></footer>
+    <footer><div><strong>NEXA</strong><span>SMART REVIEW SOLUTION</span></div><p>Connecting physical interaction to digital action.</p><p>© 2026 NEXA</p></footer>
+  </div>
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

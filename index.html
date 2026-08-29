@@ -43,14 +43,8 @@
       <div class="container hero-grid">
         <div class="hero-copy reveal">
           <div class="review-badge"><span>NEXA REVIEW</span></div>
-
-          <h1>
-            ONE <span class="gradient-text">TAP.</span><br>
-            ONE <span class="gradient-text">REVIEW.</span>
-          </h1>
-
+          <h1>ONE <span class="gradient-text">TAP.</span><br>ONE <span class="gradient-text">REVIEW.</span></h1>
           <p class="hero-lead">Bantu bisnis Anda memudahkan pelanggan memberikan Google Review hanya dengan satu tap NFC atau scan QR.</p>
-
           <div class="hero-actions">
             <button class="btn btn-primary btn-disabled-action" type="button" disabled>Pesan Segera Hadir</button>
             <a class="btn btn-outline" href="#how">Lihat Cara Kerja <span class="play-mini">▶</span></a>
@@ -60,9 +54,7 @@
         <div class="hero-visual reveal">
           <div class="hero-light-ring hero-light-ring--one"></div>
           <div class="hero-light-ring hero-light-ring--two"></div>
-          <div class="css-rock" aria-hidden="true"></div>
           <div class="product-3d product-tilt" data-tilt>
-            <div class="product-depth" aria-hidden="true"></div>
             <img src="assets/nexa-review-product-original.png" alt="NEXA Review dengan NFC dan QR untuk Google Review" width="900" height="900" fetchpriority="high" decoding="async">
             <span class="product-sheen" aria-hidden="true"></span>
           </div>
@@ -75,7 +67,6 @@
         <div class="about-product">
           <div class="mini-orbit"></div>
           <div class="product-3d product-3d--small product-tilt" data-tilt>
-            <div class="product-depth"></div>
             <img src="assets/nexa-review-product-original.png" alt="Produk NEXA Review" width="900" height="900" loading="lazy" decoding="async">
             <span class="product-sheen"></span>
           </div>
@@ -101,8 +92,17 @@
           <article class="step-card">
             <span class="step-number">1</span>
             <div class="step-visual step-visual--tap">
-              <div class="mini-product"><img src="assets/nexa-review-product-original.png" alt="" width="900" height="900" loading="lazy" decoding="async"></div>
-              <div class="phone-ui"><span class="phone-speaker"></span><div class="phone-screen"><div class="nfc-icon" aria-hidden="true"><i></i><i></i><i></i></div></div></div>
+              <div class="mini-product"><img src="assets/nexa-review-product-original.png" alt="Produk NEXA Review" width="900" height="900" loading="lazy" decoding="async"></div>
+              <div class="phone-ui" aria-hidden="true">
+                <span class="phone-speaker"></span>
+                <div class="phone-screen">
+                  <svg class="contactless-svg" viewBox="0 0 64 64">
+                    <path d="M22 21c8 7 8 15 0 22"/>
+                    <path d="M31 15c13 11 13 23 0 34"/>
+                    <path d="M40 9c18 16 18 30 0 46"/>
+                  </svg>
+                </div>
+              </div>
             </div>
             <h3>Tap / Scan</h3>
             <p>Tempel HP ke NFC atau scan QR Code.</p>
@@ -113,9 +113,9 @@
           <article class="step-card">
             <span class="step-number">2</span>
             <div class="step-visual step-visual--google">
-              <div class="browser-phone">
+              <div class="browser-phone" aria-hidden="true">
                 <div class="browser-notch"></div>
-                <div class="google-word">Google Review</div>
+                <div class="review-page-title">Google Review</div>
                 <div class="review-line"><span class="stars">★★★★★</span></div>
                 <span class="review-bar"></span><span class="review-bar short"></span>
               </div>
@@ -128,7 +128,7 @@
 
           <article class="step-card">
             <span class="step-number">3</span>
-            <div class="step-visual step-visual--stars"><span>★★★★★</span></div>
+            <div class="step-visual step-visual--stars" aria-hidden="true"><span>★★★★★</span></div>
             <h3>Berikan Review</h3>
             <p>Pelanggan memberikan ulasan dengan mudah.</p>
           </article>
@@ -145,10 +145,33 @@
         </div>
 
         <div class="benefit-cards">
-          <article class="benefit-card reveal"><div class="icon-box"><span class="google-text-icon">G</span></div><div><h3>Langsung ke<br>Google Review</h3><p>Tanpa aplikasi tambahan.</p></div></article>
-          <article class="benefit-card reveal"><div class="icon-box icon-box--nfc"><div class="nfc-icon nfc-icon--large"><i></i><i></i><i></i></div></div><div><h3>Teknologi NFC + QR</h3><p>Modern & praktis.</p></div></article>
-          <article class="benefit-card reveal"><div class="icon-box"><span class="shield-icon">◇</span></div><div><h3>Desain Premium</h3><p>Rapi untuk area pelayanan.</p></div></article>
-          <article class="benefit-card reveal"><div class="icon-box"><span class="bolt-icon">⚡</span></div><div><h3>Instan & Mudah</h3><p>Hanya butuh satu tap.</p></div></article>
+          <article class="benefit-card reveal">
+            <div class="icon-box" aria-hidden="true">
+              <svg class="benefit-icon-svg" viewBox="0 0 24 24"><path d="M7 17 17 7M10 7h7v7"/><path d="M17 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4"/></svg>
+            </div>
+            <div><h3>Langsung ke<br>Google Review</h3><p>Tanpa aplikasi tambahan.</p></div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box" aria-hidden="true">
+              <svg class="benefit-icon-svg" viewBox="0 0 24 24"><path d="M6 8c4 3 4 5 0 8"/><path d="M10 5c7 5 7 9 0 14"/><path d="M14 3c9 7 9 11 0 18"/></svg>
+            </div>
+            <div><h3>Teknologi NFC + QR</h3><p>Modern & praktis.</p></div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box" aria-hidden="true">
+              <svg class="benefit-icon-svg" viewBox="0 0 24 24"><path d="M12 3 19 6v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3Z"/><path d="m9 12 2 2 4-5"/></svg>
+            </div>
+            <div><h3>Desain Premium</h3><p>Rapi untuk area pelayanan.</p></div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box" aria-hidden="true">
+              <svg class="benefit-icon-svg benefit-icon-svg--bolt" viewBox="0 0 24 24"><path d="m13 2-7 11h6l-1 9 7-12h-6l1-8Z"/></svg>
+            </div>
+            <div><h3>Instan & Mudah</h3><p>Hanya butuh satu tap.</p></div>
+          </article>
         </div>
       </div>
     </section>
@@ -171,7 +194,6 @@
         <div class="cta-product">
           <div class="cta-orbit"></div>
           <div class="product-3d product-3d--cta product-tilt" data-tilt>
-            <div class="product-depth"></div>
             <img src="assets/nexa-review-product-original.png" alt="NEXA Review" width="900" height="900" loading="lazy" decoding="async">
             <span class="product-sheen"></span>
           </div>

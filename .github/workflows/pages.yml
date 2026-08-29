@@ -23,12 +23,22 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Build product image
+        shell: bash
+        run: |
+          set -e
+          base64 --decode assets/nexa-product-ref.webp.base64 > assets/nexa-review-product-live.webp
+          test -s assets/nexa-review-product-live.webp
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: "."
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

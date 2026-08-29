@@ -3,102 +3,174 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#02040a">
+  <meta name="theme-color" content="#01040c">
   <meta name="description" content="NEXA Review — NFC + QR untuk memudahkan pelanggan menuju Google Review.">
   <title>NEXA Review — Smart Review Solution</title>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="assets/nexa-review-product.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="preload" as="image" href="assets/nexa-product-ref.webp" type="image/webp">
   <link rel="stylesheet" href="style.css">
   <script defer src="script.js"></script>
 </head>
 <body>
-  <div class="bg-glow bg-glow--a" aria-hidden="true"></div>
-  <div class="bg-glow bg-glow--b" aria-hidden="true"></div>
-  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="site-ambient" aria-hidden="true">
+    <span class="ambient-orbit ambient-orbit--one"></span>
+    <span class="ambient-orbit ambient-orbit--two"></span>
+    <span class="ambient-glow ambient-glow--one"></span>
+    <span class="ambient-glow ambient-glow--two"></span>
+  </div>
 
   <header class="site-header" id="top">
     <div class="container nav-wrap">
-      <a class="brand" href="#top">NEXA</a>
+      <a class="brand" href="#top" aria-label="NEXA Home">NEXA</a>
+
       <nav class="nav" aria-label="Navigasi utama">
-        <a href="#top">Home</a>
+        <a class="active" href="#top">Home</a>
         <a href="#how">How It Works</a>
         <a href="#benefits">Benefits</a>
-        <a href="#product">Product</a>
+        <a href="#about">Review</a>
         <a href="#contact">Contact</a>
       </nav>
-      <a class="nav-cta" href="#contact">Segera Hadir <span>→</span></a>
+
+      <a class="nav-cta" href="#contact">
+        Pesan Sekarang <span>→</span>
+      </a>
     </div>
   </header>
 
   <main>
-    <section class="hero section">
+    <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <div class="eyebrow">NEXA REVIEW <span class="google-dot">G</span></div>
-          <h1>ONE <span>TAP.</span><br>ONE <span>REVIEW.</span></h1>
-          <p>Bantu bisnis Anda memudahkan pelanggan memberikan Google Review hanya dengan satu tap NFC atau scan QR.</p>
+          <div class="review-badge">
+            <span>NEXA REVIEW</span>
+            <span class="google-g" aria-label="Google"></span>
+          </div>
+
+          <h1>
+            ONE <span class="gradient-text">TAP.</span><br>
+            ONE <span class="gradient-text">REVIEW.</span>
+          </h1>
+
+          <p class="hero-lead">
+            Bantu bisnis Anda memudahkan pelanggan memberikan Google Review
+            hanya dengan satu tap NFC atau scan QR.
+          </p>
+
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#product">Lihat Produk <span>→</span></a>
-            <a class="btn btn-secondary" href="#how">Lihat Cara Kerja <span>▶</span></a>
+            <a class="btn btn-primary" href="#contact">Pesan Sekarang <span>→</span></a>
+            <a class="btn btn-outline" href="#how">
+              Lihat Cara Kerja
+              <span class="play-mini">▶</span>
+            </a>
+          </div>
+
+          <div class="truth-row" aria-label="Fitur utama NEXA">
+            <span><i class="truth-dot"></i>NFC + QR</span>
+            <span><i class="truth-dot"></i>Tanpa aplikasi tambahan</span>
+            <span><i class="truth-dot"></i>Langsung ke Google Review</span>
           </div>
         </div>
 
-        <div class="hero-stage reveal" aria-label="Produk NEXA Review">
-          <div class="neon-orbit orbit-one"></div>
-          <div class="neon-orbit orbit-two"></div>
-          <div class="hero-product-wrap product-tilt">
-            <img src="assets/nexa-review-product.svg" alt="NEXA Review NFC dan QR" class="hero-product" width="1200" height="1120" fetchpriority="high">
+        <div class="hero-visual reveal">
+          <div class="hero-light-ring hero-light-ring--one"></div>
+          <div class="hero-light-ring hero-light-ring--two"></div>
+          <div class="css-rock" aria-hidden="true"></div>
+
+          <div class="product-3d product-tilt" data-tilt>
+            <div class="product-depth" aria-hidden="true"></div>
+            <img src="assets/nexa-product-ref.webp"
+                 alt="NEXA Review dengan NFC dan QR untuk Google Review"
+                 width="768" height="768" fetchpriority="high">
+            <span class="product-sheen" aria-hidden="true"></span>
           </div>
-          <div class="rock-base" aria-hidden="true"></div>
         </div>
       </div>
     </section>
 
-    <section class="section intro-product" id="product">
-      <div class="container product-intro-grid">
-        <div class="product-small reveal product-tilt">
-          <div class="neon-orbit orbit-small"></div>
-          <img src="assets/nexa-review-product.svg" alt="Produk NEXA Review" loading="lazy">
+    <section class="section about" id="about">
+      <div class="container about-shell reveal">
+        <div class="about-product">
+          <div class="mini-orbit"></div>
+          <div class="product-3d product-3d--small product-tilt" data-tilt>
+            <div class="product-depth"></div>
+            <img src="assets/nexa-product-ref.webp" alt="Produk NEXA Review" loading="lazy">
+            <span class="product-sheen"></span>
+          </div>
         </div>
-        <article class="feature-panel reveal">
-          <div class="eyebrow plain">NEXA REVIEW</div>
+
+        <article class="about-copy">
+          <div class="section-pill">NEXA REVIEW</div>
           <h2>Apa itu<br>NEXA Review?</h2>
-          <p>NEXA Review adalah media NFC + QR yang membantu pelanggan menuju halaman Google Review bisnis Anda dengan cara yang lebih singkat dan praktis.</p>
-          <p>Cukup tap NFC atau scan QR, lalu pelanggan dapat melanjutkan ke halaman review tanpa perlu mencari nama bisnis secara manual.</p>
+          <p>
+            NEXA Review adalah solusi modern untuk membantu bisnis memudahkan
+            pelanggan menuju halaman Google Review.
+          </p>
+          <p>
+            Cukup tap NFC atau scan QR, pelanggan langsung diarahkan ke halaman
+            review bisnis Anda tanpa perlu mencari nama bisnis secara manual.
+          </p>
         </article>
       </div>
     </section>
 
     <section class="section how" id="how">
       <div class="container how-shell reveal">
-        <div class="how-head">
-          <div class="eyebrow plain">CARA KERJA</div>
+        <div class="how-title">
+          <div class="eyebrow">CARA KERJA</div>
           <h2>Sangat Mudah!</h2>
-          <p>Hanya 3 langkah sederhana.</p>
+          <p>Hanya 3 langkah untuk menuju halaman review.</p>
         </div>
+
         <div class="steps">
           <article class="step-card">
-            <span class="step-no">1</span>
-            <div class="step-visual tap-visual">
-              <img src="assets/nexa-review-product.svg" alt="Tap NFC atau scan QR" loading="lazy">
-              <div class="phone-shape"></div>
+            <span class="step-number">1</span>
+            <div class="step-visual step-visual--tap">
+              <div class="mini-product">
+                <img src="assets/nexa-product-ref.webp" alt="" loading="lazy">
+              </div>
+              <div class="phone-ui">
+                <span class="phone-speaker"></span>
+                <div class="phone-screen">
+                  <div class="nfc-icon" aria-hidden="true">
+                    <i></i><i></i><i></i>
+                  </div>
+                </div>
+              </div>
             </div>
             <h3>Tap / Scan</h3>
             <p>Tempel HP ke NFC atau scan QR Code.</p>
           </article>
-          <div class="step-arrow">→</div>
+
+          <span class="flow-arrow">→</span>
+
           <article class="step-card">
-            <span class="step-no">2</span>
-            <div class="step-visual google-screen"><span class="g-logo">G</span><div class="stars">★★★★★</div></div>
+            <span class="step-number">2</span>
+            <div class="step-visual step-visual--google">
+              <div class="browser-phone">
+                <div class="browser-notch"></div>
+                <div class="google-word">Google</div>
+                <div class="review-line">
+                  <span class="stars">★★★★★</span>
+                </div>
+                <span class="review-bar"></span>
+                <span class="review-bar short"></span>
+              </div>
+            </div>
             <h3>Buka Halaman</h3>
             <p>Langsung menuju halaman Google Review.</p>
           </article>
-          <div class="step-arrow">→</div>
+
+          <span class="flow-arrow">→</span>
+
           <article class="step-card">
-            <span class="step-no">3</span>
-            <div class="step-visual review-stars">★★★★★</div>
+            <span class="step-number">3</span>
+            <div class="step-visual step-visual--stars">
+              <span>★★★★★</span>
+            </div>
             <h3>Berikan Review</h3>
             <p>Pelanggan memberikan ulasan dengan mudah.</p>
           </article>
@@ -108,47 +180,119 @@
 
     <section class="section benefits" id="benefits">
       <div class="container benefits-grid">
-        <div class="benefit-copy reveal">
-          <div class="eyebrow plain">KENAPA NEXA?</div>
+        <div class="benefit-heading reveal">
+          <div class="eyebrow">KENAPA NEXA?</div>
           <h2>Lebih Mudah.<br>Lebih Profesional.</h2>
-          <p>NEXA Review membantu menyederhanakan proses menuju Google Review tanpa membuat pelanggan kebingungan.</p>
+          <p>
+            Satu media untuk membantu mengurangi langkah yang harus dilakukan
+            pelanggan sebelum menuju Google Review.
+          </p>
         </div>
+
         <div class="benefit-cards">
-          <article class="benefit-card reveal"><div class="benefit-icon">G</div><div><h3>Langsung ke Google Review</h3><p>Tanpa aplikasi tambahan.</p></div></article>
-          <article class="benefit-card reveal"><div class="benefit-icon">⌁</div><div><h3>Teknologi NFC + QR</h3><p>Praktis dan fleksibel.</p></div></article>
-          <article class="benefit-card reveal"><div class="benefit-icon">◇</div><div><h3>Desain Premium</h3><p>Rapi untuk area pelayanan bisnis.</p></div></article>
-          <article class="benefit-card reveal"><div class="benefit-icon">⚡</div><div><h3>Instan & Mudah</h3><p>Hanya butuh satu tap atau scan.</p></div></article>
+          <article class="benefit-card reveal">
+            <div class="icon-box">
+              <span class="google-g google-g--large"></span>
+            </div>
+            <div>
+              <h3>Langsung ke<br>Google Review</h3>
+              <p>Tanpa aplikasi tambahan.</p>
+            </div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box icon-box--nfc">
+              <div class="nfc-icon nfc-icon--large"><i></i><i></i><i></i></div>
+            </div>
+            <div>
+              <h3>Teknologi NFC + QR</h3>
+              <p>Modern & praktis.</p>
+            </div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box">
+              <span class="shield-icon">◇</span>
+            </div>
+            <div>
+              <h3>Desain Premium</h3>
+              <p>Rapi untuk area pelayanan.</p>
+            </div>
+          </article>
+
+          <article class="benefit-card reveal">
+            <div class="icon-box">
+              <span class="bolt-icon">⚡</span>
+            </div>
+            <div>
+              <h3>Instan & Mudah</h3>
+              <p>Hanya butuh satu tap.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section audience">
       <div class="container">
-        <div class="section-heading reveal">
-          <div class="eyebrow plain">COCOK UNTUK</div>
+        <div class="audience-heading reveal">
+          <div class="eyebrow">COCOK UNTUK</div>
           <h2>Siapa Saja?</h2>
         </div>
+
         <div class="audience-grid">
-          <article class="audience-card reveal"><span>🍽</span><p>Restoran & Cafe</p></article>
-          <article class="audience-card reveal"><span>🛍</span><p>Toko & Outlet</p></article>
-          <article class="audience-card reveal"><span>🏨</span><p>Hotel & Penginapan</p></article>
-          <article class="audience-card reveal"><span>✂</span><p>Salon & Perawatan</p></article>
-          <article class="audience-card reveal"><span>💼</span><p>Jasa & Freelancer</p></article>
+          <article class="audience-card reveal">
+            <div class="audience-icon">♨</div>
+            <p>Restoran & Cafe</p>
+          </article>
+          <article class="audience-card reveal">
+            <div class="audience-icon">▣</div>
+            <p>Toko & Outlet</p>
+          </article>
+          <article class="audience-card reveal">
+            <div class="audience-icon">▤</div>
+            <p>Hotel & Penginapan</p>
+          </article>
+          <article class="audience-card reveal">
+            <div class="audience-icon">▰</div>
+            <p>Salon & Perawatan</p>
+          </article>
+          <article class="audience-card reveal">
+            <div class="audience-icon">▧</div>
+            <p>Jasa & Freelancer</p>
+          </article>
         </div>
       </div>
     </section>
 
     <section class="section final-cta" id="contact">
-      <div class="container cta-grid reveal">
-        <div class="cta-product product-tilt">
-          <div class="neon-orbit orbit-cta"></div>
-          <img src="assets/nexa-review-product.svg" alt="NEXA Review" loading="lazy">
+      <div class="container cta-shell reveal">
+        <div class="cta-product">
+          <div class="cta-orbit"></div>
+          <div class="product-3d product-3d--cta product-tilt" data-tilt>
+            <div class="product-depth"></div>
+            <img src="assets/nexa-product-ref.webp" alt="NEXA Review" loading="lazy">
+            <span class="product-sheen"></span>
+          </div>
         </div>
+
         <div class="cta-copy">
-          <div class="eyebrow plain">NEXA REVIEW</div>
-          <h2>Kontak segera hadir.</h2>
-          <p>Nomor bisnis khusus NEXA akan ditambahkan setelah siap digunakan.</p>
-          <button class="btn btn-disabled" type="button" disabled>Pesan Sekarang — Segera Hadir</button>
+          <div class="section-pill">SIAP MENINGKATKAN BISNIS ANDA?</div>
+          <h2>Dapatkan NEXA Review<br>Sekarang!</h2>
+          <p>
+            Permudah pelanggan menuju Google Review dan hadirkan pengalaman
+            layanan yang lebih modern.
+          </p>
+
+          <div class="cta-actions">
+            <button class="btn btn-primary btn-disabled-action" type="button" disabled>
+              Pesan Sekarang <span>→</span>
+            </button>
+            <button class="btn btn-outline btn-disabled-action" type="button" disabled>
+              Kontak Segera Hadir
+            </button>
+          </div>
+          <small class="coming-note">Nomor bisnis NEXA sedang dipersiapkan.</small>
         </div>
       </div>
     </section>
@@ -156,9 +300,20 @@
 
   <footer class="site-footer">
     <div class="container footer-wrap">
-      <div><strong>NEXA</strong><span>SMART REVIEW SOLUTION</span></div>
-      <nav><a href="#top">Home</a><a href="#how">How It Works</a><a href="#benefits">Benefits</a><a href="#product">Product</a><a href="#contact">Contact</a></nav>
-      <small>© 2026 NEXA</small>
+      <div class="footer-brand">
+        <strong>NEXA</strong>
+        <span>SMART REVIEW SOLUTION</span>
+      </div>
+
+      <nav aria-label="Navigasi footer">
+        <a href="#top">Home</a>
+        <a href="#how">How It Works</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#about">Review</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <small>© 2026 NEXA. All rights reserved.</small>
     </div>
   </footer>
 </body>

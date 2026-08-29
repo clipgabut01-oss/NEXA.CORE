@@ -2,6 +2,27 @@
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(pointer:fine)').matches;
 
+  async function loadNexaProductArtwork() {
+    try {
+      const response = await fetch('assets/nexa-product-ref.webp.base64', { cache: 'force-cache' });
+      if (!response.ok) throw new Error('Product asset failed to load');
+
+      const base64 = (await response.text()).trim();
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
+
+      const url = URL.createObjectURL(new Blob([bytes], { type: 'image/webp' }));
+      document.querySelectorAll('[data-nexa-product]').forEach(image => {
+        image.src = url;
+      });
+    } catch (error) {
+      console.error('NEXA artwork:', error);
+    }
+  }
+
+  loadNexaProductArtwork();
+
   const revealItems = [...document.querySelectorAll('.reveal')];
 
   if ('IntersectionObserver' in window && !reduceMotion) {

@@ -6,11 +6,9 @@
   <meta name="theme-color" content="#01040c">
   <meta name="description" content="NEXA Review — NFC + QR untuk memudahkan pelanggan menuju Google Review.">
   <title>NEXA Review — Smart Review Solution</title>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-
   <link rel="preload" href="assets/nexa-review-product-original.png" as="image" type="image/png">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="fix.css">
@@ -42,7 +40,16 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <div class="review-badge"><span>NEXA REVIEW</span></div>
+          <div class="review-badge">
+            <span>NEXA REVIEW</span>
+            <svg class="google-mark google-mark--badge" viewBox="0 0 24 24" aria-label="Google">
+              <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.49-1.12 2.75-2.39 3.6v3h3.87c2.27-2.09 3.54-5.17 3.54-8.84z"/>
+              <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.94-2.89l-3.87-3c-1.07.72-2.44 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.95H1.27v3.09A12 12 0 0 0 12 24z"/>
+              <path fill="#FBBC05" d="M5.27 14.31A7.2 7.2 0 0 1 4.9 12c0-.8.14-1.57.37-2.31V6.6H1.27A12 12 0 0 0 0 12c0 1.93.46 3.76 1.27 5.4l4-3.09z"/>
+              <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.6 4.58 1.78l3.44-3.44C17.95 1.5 15.24.44 12 .44A12 12 0 0 0 1.27 6.6l4 3.09c.95-2.84 3.6-4.94 6.73-4.94z"/>
+            </svg>
+          </div>
+
           <h1>ONE <span class="gradient-text">TAP.</span><br>ONE <span class="gradient-text">REVIEW.</span></h1>
           <p class="hero-lead">Bantu bisnis Anda memudahkan pelanggan memberikan Google Review hanya dengan satu tap NFC atau scan QR.</p>
           <div class="hero-actions">
@@ -92,10 +99,12 @@
           <article class="step-card">
             <span class="step-number">1</span>
             <div class="step-visual step-visual--tap">
-              <div class="mini-product"><img src="assets/nexa-review-product-original.png" alt="Produk NEXA Review" width="900" height="900" loading="lazy" decoding="async"></div>
-              <div class="phone-ui" aria-hidden="true">
+              <div class="mini-product">
+                <img src="assets/nexa-review-product-original.png" alt="Produk NEXA Review" width="900" height="900" loading="lazy" decoding="async">
+              </div>
+              <div class="phone-device phone-device--tap" aria-hidden="true">
                 <span class="phone-speaker"></span>
-                <div class="phone-screen">
+                <div class="phone-screen phone-screen--tap">
                   <svg class="contactless-svg" viewBox="0 0 64 64">
                     <path d="M22 21c8 7 8 15 0 22"/>
                     <path d="M31 15c13 11 13 23 0 34"/>
@@ -113,11 +122,20 @@
           <article class="step-card">
             <span class="step-number">2</span>
             <div class="step-visual step-visual--google">
-              <div class="browser-phone" aria-hidden="true">
-                <div class="browser-notch"></div>
-                <div class="review-page-title">Google Review</div>
-                <div class="review-line"><span class="stars">★★★★★</span></div>
-                <span class="review-bar"></span><span class="review-bar short"></span>
+              <div class="phone-device phone-device--review" aria-hidden="true">
+                <span class="phone-speaker"></span>
+                <div class="phone-screen phone-screen--review">
+                  <svg class="google-mark google-mark--phone" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.49-1.12 2.75-2.39 3.6v3h3.87c2.27-2.09 3.54-5.17 3.54-8.84z"/>
+                    <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.94-2.89l-3.87-3c-1.07.72-2.44 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.95H1.27v3.09A12 12 0 0 0 12 24z"/>
+                    <path fill="#FBBC05" d="M5.27 14.31A7.2 7.2 0 0 1 4.9 12c0-.8.14-1.57.37-2.31V6.6H1.27A12 12 0 0 0 0 12c0 1.93.46 3.76 1.27 5.4l4-3.09z"/>
+                    <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.6 4.58 1.78l3.44-3.44C17.95 1.5 15.24.44 12 .44A12 12 0 0 0 1.27 6.6l4 3.09c.95-2.84 3.6-4.94 6.73-4.94z"/>
+                  </svg>
+                  <div class="review-page-label">Google Review</div>
+                  <div class="review-stars">★★★★★</div>
+                  <span class="review-bar"></span>
+                  <span class="review-bar review-bar--short"></span>
+                </div>
               </div>
             </div>
             <h3>Buka Halaman</h3>
@@ -128,7 +146,9 @@
 
           <article class="step-card">
             <span class="step-number">3</span>
-            <div class="step-visual step-visual--stars" aria-hidden="true"><span>★★★★★</span></div>
+            <div class="step-visual step-visual--stars" aria-hidden="true">
+              <span class="large-stars">★★★★★</span>
+            </div>
             <h3>Berikan Review</h3>
             <p>Pelanggan memberikan ulasan dengan mudah.</p>
           </article>
@@ -140,14 +160,19 @@
       <div class="container benefits-grid">
         <div class="benefit-heading reveal">
           <div class="eyebrow">KENAPA NEXA?</div>
-          <h2>Lebih Mudah.<br>Lebih Profesional.</h2>
-          <p>Satu media untuk membantu mengurangi langkah yang harus dilakukan pelanggan sebelum menuju Google Review.</p>
+          <h2>Lebih Banyak Review,<br>Lebih Banyak Pelanggan.</h2>
+          <p>Mempermudah pelanggan menuju halaman Google Review dan membantu bisnis membangun kepercayaan secara lebih profesional.</p>
         </div>
 
         <div class="benefit-cards">
           <article class="benefit-card reveal">
-            <div class="icon-box" aria-hidden="true">
-              <svg class="benefit-icon-svg" viewBox="0 0 24 24"><path d="M7 17 17 7M10 7h7v7"/><path d="M17 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h4"/></svg>
+            <div class="icon-box icon-box--google" aria-hidden="true">
+              <svg class="google-mark google-mark--benefit" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47c-.28 1.49-1.12 2.75-2.39 3.6v3h3.87c2.27-2.09 3.54-5.17 3.54-8.84z"/>
+                <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.94-2.89l-3.87-3c-1.07.72-2.44 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.95H1.27v3.09A12 12 0 0 0 12 24z"/>
+                <path fill="#FBBC05" d="M5.27 14.31A7.2 7.2 0 0 1 4.9 12c0-.8.14-1.57.37-2.31V6.6H1.27A12 12 0 0 0 0 12c0 1.93.46 3.76 1.27 5.4l4-3.09z"/>
+                <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.6 4.58 1.78l3.44-3.44C17.95 1.5 15.24.44 12 .44A12 12 0 0 0 1.27 6.6l4 3.09c.95-2.84 3.6-4.94 6.73-4.94z"/>
+              </svg>
             </div>
             <div><h3>Langsung ke<br>Google Review</h3><p>Tanpa aplikasi tambahan.</p></div>
           </article>
@@ -202,7 +227,10 @@
           <div class="section-pill">SIAP MENINGKATKAN BISNIS ANDA?</div>
           <h2>Dapatkan NEXA Review<br>Sekarang!</h2>
           <p>Permudah pelanggan menuju Google Review dan hadirkan pengalaman layanan yang lebih modern.</p>
-          <div class="cta-actions"><button class="btn btn-primary btn-disabled-action" type="button" disabled>Pesan Segera Hadir</button><button class="btn btn-outline btn-disabled-action" type="button" disabled>Kontak Segera Hadir</button></div>
+          <div class="cta-actions">
+            <button class="btn btn-primary btn-disabled-action" type="button" disabled>Pesan Segera Hadir</button>
+            <button class="btn btn-outline btn-disabled-action" type="button" disabled>Kontak Segera Hadir</button>
+          </div>
           <small class="coming-note">Nomor bisnis NEXA sedang dipersiapkan.</small>
         </div>
       </div>

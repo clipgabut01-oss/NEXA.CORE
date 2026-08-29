@@ -1,0 +1,54 @@
+name: Build Original NEXA Product
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "assets/product-data/**"
+      - ".github/workflows/build-original-product.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-product:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Rebuild original product PNG
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat assets/product-data/part-*.txt | tr -d '\n\r ' > /tmp/nexa-product.b64
+          base64 --decode /tmp/nexa-product.b64 > assets/nexa-review-product-original.png
+          python3 - <<'PY'
+          from pathlib import Path
+          import struct
+          p = Path('assets/nexa-review-product-original.png')
+          data = p.read_bytes()
+          if not data.startswith(b'\x89PNG\r\n\x1a\n'):
+              raise SystemExit('Invalid PNG signature')
+          if len(data) < 24:
+              raise SystemExit('PNG too small')
+          w, h = struct.unpack('>II', data[16:24])
+          if w < 800 or h < 800:
+              raise SystemExit(f'Unexpected PNG dimensions: {w}x{h}')
+          print(f'Product asset valid: {w}x{h}, {len(data)} bytes')
+          PY
+
+      - name: Commit generated product asset
+        shell: bash
+        run: |
+          set -e
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/nexa-review-product-original.png
+          if git diff --cached --quiet; then
+            echo "No product asset changes"
+          else
+            git commit -m "Generate original NEXA product asset"
+            git push
+          fi

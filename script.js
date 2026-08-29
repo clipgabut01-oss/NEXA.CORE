@@ -1,4 +1,27 @@
 (() => {
+  const ORIGINAL_PRODUCT = 'assets/nexa-review-product-original.png';
+  const FALLBACK_PRODUCT = 'assets/nexa-review-product.svg';
+
+  const applyOriginalProduct = () => {
+    const productImages = document.querySelectorAll('.product-3d img, .mini-product img');
+    productImages.forEach(img => {
+      const originalAlt = img.alt || 'NEXA Review';
+      img.src = ORIGINAL_PRODUCT;
+      img.alt = originalAlt;
+      img.decoding = 'async';
+      img.onerror = () => {
+        img.onerror = null;
+        img.src = FALLBACK_PRODUCT;
+      };
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', applyOriginalProduct, { once: true });
+  } else {
+    applyOriginalProduct();
+  }
+
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(pointer:fine)').matches;
 
@@ -35,13 +58,13 @@
           const rect = card.getBoundingClientRect();
           const px = (event.clientX - rect.left) / rect.width - 0.5;
           const py = (event.clientY - rect.top) / rect.height - 0.5;
-          card.style.setProperty('--rx', `${(-py * 7) - 4}deg`);
-          card.style.setProperty('--ry', `${(px * 10) - 4}deg`);
+          card.style.setProperty('--rx', `${-py * 5.5 - 2.5}deg`);
+          card.style.setProperty('--ry', `${px * 8 - 3}deg`);
         });
       });
       card.addEventListener('pointerleave', () => {
-        card.style.setProperty('--rx', '-5deg');
-        card.style.setProperty('--ry', '-9deg');
+        card.style.setProperty('--rx', '-3deg');
+        card.style.setProperty('--ry', '-6deg');
       });
     });
   }

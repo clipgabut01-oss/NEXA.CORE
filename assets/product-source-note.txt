@@ -1,0 +1,1 @@
+NEXA product visual uses the user-provided reference artwork.

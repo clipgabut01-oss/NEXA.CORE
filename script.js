@@ -1,6 +1,9 @@
 (() => {
   const ORIGINAL_PRODUCT = 'assets/nexa-review-product-original.png';
   const FALLBACK_PRODUCT = 'assets/nexa-review-product.svg';
+  const WHATSAPP_NUMBER = '62895702699697';
+  const WHATSAPP_MESSAGE = 'Halo NEXA, saya tertarik dengan NEXA Review. Bisa minta informasi lebih lanjut?';
+  const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   const applyOriginalProduct = () => {
     const productImages = document.querySelectorAll('.product-3d img, .mini-product img');
@@ -16,10 +19,49 @@
     });
   };
 
+  const openWhatsApp = () => {
+    window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+  };
+
+  const activateWhatsApp = () => {
+    const navCta = document.querySelector('.nav-cta');
+    if (navCta) {
+      navCta.classList.remove('nav-cta--disabled');
+      navCta.textContent = 'Pesan Sekarang';
+      navCta.setAttribute('role', 'link');
+      navCta.setAttribute('tabindex', '0');
+      navCta.setAttribute('aria-label', 'Pesan NEXA Review melalui WhatsApp');
+      navCta.style.cursor = 'pointer';
+      navCta.addEventListener('click', openWhatsApp);
+      navCta.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          openWhatsApp();
+        }
+      });
+    }
+
+    const actionButtons = [...document.querySelectorAll('.btn-disabled-action')];
+    actionButtons.forEach(button => {
+      button.disabled = false;
+      button.classList.remove('btn-disabled-action');
+      button.textContent = /kontak/i.test(button.textContent) ? 'Hubungi Kami' : 'Pesan Sekarang';
+      button.setAttribute('aria-label', `${button.textContent} melalui WhatsApp`);
+      button.addEventListener('click', openWhatsApp);
+    });
+
+    const comingNote = document.querySelector('.coming-note');
+    if (comingNote) comingNote.textContent = 'WhatsApp NEXA: 0895 7026 99697';
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', applyOriginalProduct, { once: true });
+    document.addEventListener('DOMContentLoaded', () => {
+      applyOriginalProduct();
+      activateWhatsApp();
+    }, { once: true });
   } else {
     applyOriginalProduct();
+    activateWhatsApp();
   }
 
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
